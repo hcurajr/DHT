@@ -23,7 +23,7 @@
 
 #define MAX_QUEUE_SIZE    10
 #define DHT_READ_INTERVAL 15000                     // Poll sensor every ~15 seconds
-#define DHT_SENSOR_NAME   "Daniel's Greenhouse    fffdsa jkl; abc"   
+#define DHT_SENSOR_NAME   "Daniel's Greenhouse"     // max 31 characters   
 
  typedef struct _dht_queue_entry_t {
     dht_data_t dhtData;
@@ -101,18 +101,12 @@ app_main(void)
     }
 
     if (xTaskCreate(&ReadSensorTask,  "ReadSensorTask",  configMINIMAL_STACK_SIZE<<2, NULL, 5, NULL) == pdFAIL) {
-        // free queue
-        gQUIT = true;
-        vQueueDelete(gQueueHandle);
         ESP_LOGE(TAG, "Failed to create ReadSensorTask. Program exiting. (%d)", __LINE__);
         return;
     }
 
     if (xTaskCreate(&WriteSensorTask, "WriteSensorTask", configMINIMAL_STACK_SIZE<<2, NULL, 4, NULL) == pdFAIL) {
         gQUIT = true;
-        vTaskDelay(pdMS_TO_TICKS(2000));
-        // free queue
-        vQueueDelete(gQueueHandle);
         ESP_LOGE(TAG, "Failed to create WriteSensorTask. Program exiting. (%d)", __LINE__);
     }
 }

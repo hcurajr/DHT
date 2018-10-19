@@ -9,7 +9,7 @@
 
 // set to 1 to display debugging info 
 #ifndef DEBUG
-#define DEBUG 1  
+#define DEBUG 0  
 #endif
 
 #define DHT_MAX_SENSOR_NAME 32
